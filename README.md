@@ -9,30 +9,44 @@ npm i fzi
 ```
 
 ## Usage
+`fzi.sort` takes a query, array, and an optional iteratee.
+
+If an iteratee is not supplied, `fzi.sort` will assume that it has been passed an array of strings.
+
+Without iteratee:
 ```
 import fzi from 'fzi'
 
-let notes = [
+let query = "f"
+
+let array = [
+	"first note"
+	"second note"
+]
+
+let sorted_notes = fzi query, array
+```
+With iteratee:
+```
+import fzi from 'fzi'
+
+let query = "f"
+
+let array = [
 	{ content: "first note", id: 1 }
 	{ content: "second note", id: 2 }
 ]
 
-let query = "f"
+let iteratee = do |x| x.content
 
-let sorted_notes = fzi notes, query, "content"
-
-console.log sorted_notes
+let sorted_notes = fzi query, array, iteratee
 ```
+
+`fzi.sort` will silently skip any non-string elements.
 
 ## Differences From fzy.js
 There are some notable differences from `fzy.js`:
-- `fzy.js` only computes the score for a given needle and haystack.
-But you're never just scoring one thing, you pretty much always want a sorted list in return.
-So `fzi` only has one default export, `fzi`, which takes as its arguments a list, a query, and a keyname,
-and returns a sorted list.
-- Instead of sorting the list after everything is scored, I use a binary insertion sort.
-- `fzy.js` allocates
-[two new arrays](https://github.com/jhawthorn/fzy.js/blob/master/index.js#L63)
-for each character in the search query.
-`fzi` allocates the arrays once, before you compute the scores for the entire list, for increased performance.
-- Removed positions highlighting. Open to putting it back in, but I use other highlighting methods in my apps.
+- `fzi` is written in Imba.
+- `fzi` comes with a `sort` method, while `fzy.js` requires you manually sort based on scoring.
+- `fzy.js` allocates arrays with every call to `score`, which has a moderate impact on performance. `fzi` only allocates these arrays once per *import*.
+- `fzi` does not have positions highlighting. I'm open to putting it back, but I didn't find it so useful in my apps.
