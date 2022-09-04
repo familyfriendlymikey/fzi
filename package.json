@@ -4,8 +4,7 @@
   "description": "fzy written in imba with some performance optimizations",
   "main": "index.js",
   "scripts": {
-    "build": "imbac index.imba",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "imba test.imba && imbac index.imba"
   },
   "repository": {
     "type": "git",
@@ -22,5 +21,9 @@
   "bugs": {
     "url": "https://github.com/familyfriendlymikey/fzi/issues"
   },
-  "homepage": "https://github.com/familyfriendlymikey/fzi#readme"
+  "homepage": "https://github.com/familyfriendlymikey/fzi#readme",
+  "devDependencies": {
+    "baretest": "^2.0.0",
+    "lodash": "^4.17.21"
+  }
 }
