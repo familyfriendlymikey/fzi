@@ -15,7 +15,7 @@ export default new class fzi
 	D = new Array(100_000)
 	B = new Array(100_000)
 
-	def sort needle, haystacks, iteratee
+	def filter_sort needle, haystacks, iteratee
 		let lower_needle = needle.toLowerCase!
 		let lower_haystack
 		let haystack
@@ -66,7 +66,6 @@ export default new class fzi
 	def compute needle, haystack, lower_needle, lower_haystack
 		let n = needle.length
 		let m = haystack.length
-
 		precompute_bonus haystack
 		for i in [0 .. n - 1]
 			let prev_score = this.SCORE_MIN
