@@ -15,6 +15,42 @@ def expect a, cmp, b
 		p cmp
 		throw ''
 
+test("sort empty string array") do
+	let l = []
+	let a = fzi.sort "test", l
+	let b = []
+	expect a, isEqual, b
+
+test("sort string array with single element") do
+	let l = ["hello"]
+	let a = fzi.sort "h", l
+	let b = ["hello"]
+	expect a, isEqual, b
+
+test("sort string array with single element") do
+	let l = ["hello"]
+	let a = fzi.sort "test", l
+	let b = []
+	expect a, isEqual, b
+
+test("sort empty object array") do
+	let l = []
+	let a = fzi.sort "test", l, do |x| x.name
+	let b = []
+	expect a, isEqual, b
+
+test("sort object array with single element") do
+	let l = [{ name: "hello" }]
+	let a = fzi.sort "h", l, do |x| x.name
+	let b = [{ name: "hello" }]
+	expect a, isEqual, b
+
+test("sort object array with single element") do
+	let l = [{ name: "hello" }]
+	let a = fzi.sort "test", l, do |x| x.name
+	let b = []
+	expect a, isEqual, b
+
 test("sort strings") do
 	let l = ["hello", "world", "heck", "haha", "hoote"]
 	let a = fzi.sort "he", l
