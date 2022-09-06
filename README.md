@@ -46,7 +46,8 @@ let sorted_notes = fzi query, array, iteratee
 
 ## Differences From fzy.js
 There are some notable differences from `fzy.js`:
-- `fzi` is written in Imba.
-- `fzi` comes with a `sort` method, while `fzy.js` requires you manually sort based on scoring.
-- `fzy.js` allocates arrays with every call to `score`, which has a moderate impact on performance. `fzi` only allocates these arrays once per *import*.
+- `fzi` is much faster because of two optimizations:
+	- `fzy.js` instantiates a new array every time `score` is called, which is quite slow. `fzi` instantiates these arrays once per *import*.
+	- `fzy.js` uses 2D arrays to store the scores, while `fzi` uses 1D arrays which are much faster.
+- `fzi` is more convenient since it comes with a sort method which accepts an array and an arbitrary iteratee.
 - `fzi` does not have positions highlighting. I'm open to putting it back, but I didn't find it so useful in my apps.
