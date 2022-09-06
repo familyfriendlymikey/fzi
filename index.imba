@@ -1,5 +1,3 @@
-import { sortBy } from 'lodash'
-
 export default new class fzi
 
 	SCORE_MIN = -Infinity
