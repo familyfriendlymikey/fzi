@@ -37,7 +37,7 @@ let array = [
 	{ content: "second note", id: 2 }
 ]
 
-let iteratee = do |x| x.content
+let iteratee = do $1.content
 
 let sorted_notes = fzi query, array, iteratee
 ```
