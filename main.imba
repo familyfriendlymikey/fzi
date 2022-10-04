@@ -29,7 +29,7 @@ export default new class fzi
 				continue unless has_match lower_needle, lower_haystack
 				let score = score needle, haystack, lower_needle, lower_haystack
 				scored.push { haystack, score, obj }
-			scored.sort(cmp).map! do |x| x.obj
+			scored.sort(cmp).map! do $1.obj
 		else
 			for haystack in haystacks
 				continue unless typeof haystack is 'string'
@@ -37,7 +37,7 @@ export default new class fzi
 				continue unless has_match lower_needle, lower_haystack
 				let score = score needle, haystack, lower_needle, lower_haystack
 				scored.push { haystack, score }
-			scored.sort(cmp).map! do |x| x.haystack
+			scored.sort(cmp).map! do $1.haystack
 
 	def cmp a, b
 		a.score < b.score and 1 or a.score > b.score and -1 or 0
@@ -92,7 +92,7 @@ export default new class fzi
 			let ch = haystack[i]
 			if last_ch is '/'
 				this.B[i] = this.SCORE_MATCH_SLASH
-			elif last_ch is '-' || last_ch is '_' || last_ch is ' '
+			elif last_ch is '-' or last_ch is '_' or last_ch is ' '
 				this.B[i] = this.SCORE_MATCH_WORD
 			elif last_ch is '.'
 				this.B[i] = this.SCORE_MATCH_DOT
