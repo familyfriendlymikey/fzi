@@ -1,6 +1,6 @@
 let p = console.log
 
-import fzi from '../index'
+import fzi from '../main'
 
 def expect a, cmp, b
 	unless cmp a, b
