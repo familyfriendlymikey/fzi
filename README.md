@@ -1,6 +1,6 @@
 # fzi
 
-A super fast and accurate fuzzy filtering/sorting algorithm forked from
+A super fast and accurate fuzzy searching algorithm forked from
 [fzy.js](https://github.com/jhawthorn/fzy.js/) with added optimizations.
 
 ## Installation
@@ -9,7 +9,7 @@ npm i fzi
 ```
 
 ## Usage
-`fzi.sort` takes a query, array, and an optional iteratee.
+`fzi.search` takes a query, array, and an optional iteratee.
 
 If an iteratee is not supplied, `fzi.search` will assume that it has been passed an array of strings.
 
@@ -24,7 +24,7 @@ let array = [
 	"second note"
 ]
 
-let sorted_notes = fzi.search query, array
+let search_result = fzi.search query, array
 ```
 With iteratee:
 ```
@@ -39,7 +39,7 @@ let array = [
 
 let iteratee = do $1.content
 
-let sorted_notes = fzi.search query, array, iteratee
+let search_result = fzi.search query, array, iteratee
 ```
 
 `fzi.search` will silently skip any non-string elements.
