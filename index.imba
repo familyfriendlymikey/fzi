@@ -15,7 +15,7 @@ export default new class fzi
 	D = new Array(100_000)
 	B = new Array(100_000)
 
-	def filter_sort needle, haystacks, iteratee
+	def search needle, haystacks, iteratee
 		let lower_needle = needle.toLowerCase!
 		let lower_haystack
 		let haystack

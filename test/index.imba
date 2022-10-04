@@ -1,6 +1,6 @@
 let p = console.log
 
-import fzi from '..'
+import fzi from '../index'
 
 def expect a, cmp, b
 	unless cmp a, b
@@ -11,5 +11,5 @@ def expect a, cmp, b
 
 def main
 	await require('./score').default(expect, fzi)
-	await require('./filter_sort').default(expect, fzi)
+	await require('./search').default(expect, fzi)
 main!
