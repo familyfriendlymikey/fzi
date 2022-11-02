@@ -1,6 +1,6 @@
 {
   "name": "fzi",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "fzy written in imba with some performance optimizations",
   "author": "Mikey Oz",
   "keywords": [
