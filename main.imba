@@ -1,4 +1,4 @@
-export default new class fzi
+module.exports = new class fzi
 
 	SCORE_MIN = -Infinity
 	SCORE_MAX = Infinity
