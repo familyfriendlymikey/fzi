@@ -2,27 +2,15 @@
   "name": "fzi",
   "version": "1.1.0",
   "description": "fzy written in imba with some performance optimizations",
-  "main": "dist/main.js",
+  "author": "Mikey Oz",
+  "keywords": [ "imba", "js", "fuzzy", "finder" ],
+  "homepage": "https://github.com/familyfriendlymikey/fzi#readme",
+  "main": "main.js",
   "scripts": {
     "test": "imba test/main.imba",
-    "build": "npm run test && imbac main.imba -o dist"
+    "build": "npm run test && imbac main.imba",
+    "prepublishOnly": "npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/familyfriendlymikey/fzi.git"
-  },
-  "keywords": [
-    "imba",
-    "js",
-    "fuzzy",
-    "finder"
-  ],
-  "author": "Mikey Oz",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/familyfriendlymikey/fzi/issues"
-  },
-  "homepage": "https://github.com/familyfriendlymikey/fzi#readme",
   "devDependencies": {
     "baretest": "^2.0.0",
     "lodash": "^4.17.21"
