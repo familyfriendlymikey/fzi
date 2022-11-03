@@ -4,8 +4,6 @@ let test = require('baretest')('search')
 
 export default do |expect, fzi|
 
-	console.log fzi.search
-
 	test("search empty string array") do
 		let l = []
 		let a = fzi.search "test", l

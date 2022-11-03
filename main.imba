@@ -1,3 +1,5 @@
+const p = console.log
+
 module.exports = new class fzi
 
 	SCORE_MIN = -Infinity
@@ -29,7 +31,7 @@ module.exports = new class fzi
 				continue unless has_match lower_needle, lower_haystack
 				let score = score needle, haystack, lower_needle, lower_haystack
 				scored.push { haystack, score, obj }
-			scored.sort(cmp).map! do $1.obj
+			scored.sort(cmp).map do $1.obj
 		else
 			for haystack in haystacks
 				continue unless typeof haystack is 'string'
@@ -37,7 +39,7 @@ module.exports = new class fzi
 				continue unless has_match lower_needle, lower_haystack
 				let score = score needle, haystack, lower_needle, lower_haystack
 				scored.push { haystack, score }
-			scored.sort(cmp).map! do $1.haystack
+			scored.sort(cmp).map do $1.haystack
 
 	def cmp a, b
 		a.score < b.score and 1 or a.score > b.score and -1 or 0
@@ -54,6 +56,48 @@ module.exports = new class fzi
 		compute needle, haystack, lower_needle, lower_haystack
 		this.M[(n - 1)*m + (m - 1)]
 
+	def idx rowLength, i, j
+		i * rowLength + j
+
+	def positions needle, haystack
+
+		let n = needle.length
+		let m = haystack.length
+		let positions = new Array(n)
+
+		if n < 1 or m < 1
+			return positions
+
+		if n is m
+			for i in [0 .. n - 1]
+				positions[i] = i
+			return positions
+
+		if m > 1024
+			return positions
+
+		this.D = new Array(100_000)
+		this.M = new Array(100_000)
+
+		compute needle, haystack
+
+		let match_required = false
+
+		let i = n - 1
+		let j = m - 1
+		while i >= 0
+			while j >= 0
+				let ij = idx m, i, j
+				let pij = idx m, i - 1, j - 1
+				if this.D[ij] isnt this.SCORE_MIN and (match_required or this.D[ij] is this.M[ij])
+					match_required = i and j and this.M[ij] is this.D[pij] + this.SCORE_MATCH_CONSECUTIVE
+					positions[i] = j--
+					break
+				j--
+			i--
+
+		positions
+
 	def has_match needle, haystack
 		let i = 0
 		let n = -1
@@ -63,7 +107,7 @@ module.exports = new class fzi
 				return no
 		return yes
 
-	def compute needle, haystack, lower_needle, lower_haystack
+	def compute needle, haystack, lower_needle=needle.toLowerCase!, lower_haystack=haystack.toLowerCase!
 		let n = needle.length
 		let m = haystack.length
 		precompute_bonus haystack
@@ -71,8 +115,8 @@ module.exports = new class fzi
 			let prev_score = this.SCORE_MIN
 			let gap_score = i is n - 1 ? this.SCORE_GAP_TRAILING : this.SCORE_GAP_INNER
 			for j in [0 .. m - 1]
-				let ij = i*m + j
-				let pij = (i - 1)*m + (j - 1)
+				let ij = idx m, i, j
+				let pij = idx m, i - 1, j - 1
 				if lower_needle[i] is lower_haystack[j]
 					let score = this.SCORE_MIN
 					if i is 0
