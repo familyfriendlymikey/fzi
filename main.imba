@@ -13,9 +13,9 @@ module.exports = new class fzi
 	SCORE_MATCH_CAPITAL = 0.7
 	SCORE_MATCH_DOT = 0.6
 
-	M = new Array(100_000)
-	D = new Array(100_000)
-	B = new Array(100_000)
+	M = new Array 100_000
+	D = new Array 100_000
+	B = new Array 100_000
 
 	def search needle, haystacks, iteratee
 		let lower_needle = needle.toLowerCase!
@@ -63,7 +63,7 @@ module.exports = new class fzi
 
 		let n = needle.length
 		let m = haystack.length
-		let positions = new Array(n)
+		let positions = new Array n
 
 		if n < 1 or m < 1
 			return positions
@@ -94,6 +94,49 @@ module.exports = new class fzi
 			i--
 
 		positions
+
+	def replaceMatches needle, haystack, replace
+
+		let n = needle.length
+		let m = haystack.length
+		let chars = new Array m
+
+		if n < 1 or m < 1
+			return haystack
+
+		if n is m
+			for i in [0 ... n]
+				chars[i] = replace haystack[i]
+			return chars.join ''
+
+		if m > 1024
+			return chars.join ''
+
+		compute needle, haystack
+
+		let match_required = false
+
+		let i = n - 1
+		let j = m - 1
+		while i >= 0
+			while j >= 0
+				let ij = idx m, i, j
+				let pij = idx m, i - 1, j - 1
+				if this.D[ij] isnt this.SCORE_MIN and (match_required or this.D[ij] is this.M[ij])
+					match_required = i and j and this.M[ij] is this.D[pij] + this.SCORE_MATCH_CONSECUTIVE
+					chars[j] = replace haystack[j]
+					j--
+					break
+				else
+					chars[j] = haystack[j]
+				j--
+			i--
+
+		while j >= 0
+			chars[j] = haystack[j]
+			j--
+
+		chars.join ''
 
 	def has_match needle, haystack
 		let i = 0

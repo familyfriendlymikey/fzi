@@ -13,4 +13,5 @@ def main
 	await require('./score').default(expect, fzi)
 	await require('./search').default(expect, fzi)
 	await require('./positions').default(expect, fzi)
+	await require('./replace').default(expect, fzi)
 main!
