@@ -76,9 +76,6 @@ module.exports = new class fzi
 		if m > 1024
 			return positions
 
-		this.D = new Array(100_000)
-		this.M = new Array(100_000)
-
 		compute needle, haystack
 
 		let match_required = false
