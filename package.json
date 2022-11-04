@@ -13,7 +13,7 @@
   "main": "main.js",
   "scripts": {
     "test": "imba test/main.imba",
-    "build": "npm run test && imbac main.imba",
+    "build": "imbac main.imba && npm run test",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
