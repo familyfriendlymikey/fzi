@@ -69,7 +69,7 @@ module.exports = new class fzi
 			return positions
 
 		if n is m
-			for i in [0 .. n - 1]
+			for i in [0 ... n]
 				positions[i] = i
 			return positions
 
@@ -108,10 +108,10 @@ module.exports = new class fzi
 		let n = needle.length
 		let m = haystack.length
 		precompute_bonus haystack
-		for i in [0 .. n - 1]
+		for i in [0 ... n]
 			let prev_score = this.SCORE_MIN
 			let gap_score = i is n - 1 ? this.SCORE_GAP_TRAILING : this.SCORE_GAP_INNER
-			for j in [0 .. m - 1]
+			for j in [0 ... m]
 				let ij = idx m, i, j
 				let pij = idx m, i - 1, j - 1
 				if lower_needle[i] is lower_haystack[j]
@@ -129,7 +129,7 @@ module.exports = new class fzi
 	def precompute_bonus haystack
 		let m = haystack.length
 		let last_ch = '/'
-		for i in [0 .. m - 1]
+		for i in [0 ... m]
 			let ch = haystack[i]
 			if last_ch is '/'
 				this.B[i] = this.SCORE_MATCH_SLASH
