@@ -95,6 +95,56 @@ module.exports = new class fzi
 
 		positions
 
+	def replaceMatchedRanges needle, haystack, replace
+
+		let n = needle.length
+		let m = haystack.length
+		let chars = new Array!
+
+		if n < 1 or m < 1
+			return haystack
+
+		if n is m
+			return replace haystack
+
+		if m > 1024
+			return haystack
+
+		compute needle, haystack
+
+		let match_required = false
+
+		let last_match
+		let i = n - 1
+		let j = m - 1
+		while i >= 0
+			while j >= 0
+				let ij = idx m, i, j
+				let pij = idx m, i - 1, j - 1
+				if this.D[ij] isnt this.SCORE_MIN and (match_required or this.D[ij] is this.M[ij])
+					match_required = i and j and this.M[ij] is this.D[pij] + this.SCORE_MATCH_CONSECUTIVE
+					last_match ??= j
+					j--
+					break
+				else
+					if last_match
+						chars.push replace(haystack.substring(j + 1,last_match + 1))
+						last_match = null
+					chars.push haystack[j]
+				j--
+			i--
+
+		if last_match isnt null and j >= 0
+			chars.push replace haystack[last_match]
+		elif last_match isnt null
+			chars.push replace haystack.substring(0,last_match + 1)
+
+		while j >= 0
+			chars.push haystack[j]
+			j--
+
+		chars.reverse!.join ''
+
 	def replaceMatches needle, haystack, replace
 
 		let n = needle.length
@@ -110,7 +160,7 @@ module.exports = new class fzi
 			return chars.join ''
 
 		if m > 1024
-			return chars.join ''
+			return haystack
 
 		compute needle, haystack
 

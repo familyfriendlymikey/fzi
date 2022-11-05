@@ -34,4 +34,9 @@ export default do |expect, fzi|
 		let b = [0,1,2]
 		expect a, isEqual, b
 
+	test("positions_all_start") do
+		let a = fzi.positions("he", "hehehehehehehehehehehehe")
+		let b = [0,1]
+		expect a, isEqual, b
+
 	test.run!

@@ -13,6 +13,7 @@
   "main": "main.js",
   "scripts": {
     "test": "imba test/main.imba",
+    "bench": "imbac main.imba bench/*.imba && time node bench/positions.js",
     "build": "imbac main.imba && npm run test",
     "prepublishOnly": "npm run build"
   },

@@ -4,14 +4,16 @@ import fzi from '../main'
 
 def expect a, cmp, b
 	unless cmp a, b
-		p("\n\nA:") and p(a)
-		p("\nB:") and p(b)
-		p("\nCMP:") and p(cmp)
-		throw ''
+		p "\n\nExpected:"
+		p b
+		p "\nReceived:"
+		p a
+		throw 1
 
 def main
 	await require('./score').default(expect, fzi)
 	await require('./search').default(expect, fzi)
 	await require('./positions').default(expect, fzi)
-	await require('./replace').default(expect, fzi)
+	await require('./replaceMatches').default(expect, fzi)
+	await require('./replaceMatchedRanges').default(expect, fzi)
 main!

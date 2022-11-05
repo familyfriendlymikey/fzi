@@ -2,7 +2,7 @@ const p = console.log
 
 import { isEqual } from 'lodash'
 
-let test = require('baretest')('replace')
+let test = require('baretest')('replaceMatches')
 
 let replace = do "<span>{$1}</span>"
 
@@ -42,6 +42,11 @@ export default do |expect, fzi|
 		let a = fzi.replaceMatches("foo", "foo", replace)
 		# let b = ["<span>f</span>","<span>o</span>","<span>o</span>"]
 		let b = '<span>f</span><span>o</span><span>o</span>'
+		expect a, isEqual, b
+
+	test("replace_start_all") do
+		let a = fzi.replaceMatches("he", "hehehehehehehehehehehehe", replace)
+		let b = '<span>h</span><span>e</span>hehehehehehehehehehehe'
 		expect a, isEqual, b
 
 	test.run!
