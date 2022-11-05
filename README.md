@@ -1,18 +1,46 @@
 # fzi
 
-A super fast and accurate fuzzy searching algorithm forked from
-[fzy.js](https://github.com/jhawthorn/fzy.js/) with added optimizations.
+`fzi` is (probably) the fastest and most accurate JavaScript
+fuzzy searching algorithm. It is extremely effective for shorter
+strings like file paths. It is not very effective at searching
+long strings like paragraphs of prose.
+
+## Performance
+
+`fzi` was forked from the excellent
+[fzy.js](https://github.com/jhawthorn/fzy.js/), however `fzi` is
+much faster because it uses a 1D matrix representation and it
+only instantiates the score matrix once per import. `fzi` also has
+a `replaceMatches` function which is a much more performant way
+of replacing matches than using an array of matching positions.
+
+`fzi`'s api is also very convenient, coming with a `search`
+function that accepts an arbitrary iteratee and a
+`replaceMatches` function that accepts an arbitrary replace
+function. With other search algorithms, you either have to score
+every item yourself or create a class instance.
 
 ## Installation
+
 ```
 npm i fzi
 ```
 
 ## Usage
 
+All the following examples are written in a fantastic language
+called `imba`, which compiles to readable JavaScript.
+
+### search
+
+```
+fzi.search(needle, haystack, iteratee)
+```
+
 `fzi.search` takes a query, array, and an optional iteratee.
 
-If an iteratee is not supplied, `fzi.search` will assume that it has been passed an array of strings.
+If an iteratee is not supplied, `fzi.search` will assume that it
+has been passed an array of strings.
 
 Without iteratee:
 
@@ -47,30 +75,40 @@ let iteratee = do $1.content
 let search_result = fzi.search query, array, iteratee
 ```
 
-`fzi.search` will silently skip any non-string elements, both with and without an iteratee.
+`fzi.search` will silently skip any non-string elements, both
+with and without an iteratee.
 
-To get positions for an individual string, call `fzi.positions`:
+### replaceMatches
 
 ```
+fzi.replaceMatches(needle, haystack, replaceMatch, replaceDiff)
+```
+
+This is a very performant and convenient way of replacing fuzzy
+matches in a string.
+
+For example, to make all matches red in your terminal window:
+
+```
+# npm i colors
+import 'colors'
 let needle = "hlo"
 let haystack = "hello"
-let positions = fzi.positions needle, haystack
-``
+fzi.replaceMatches(needle, haystack) do $1.red
+```
 
-I've chosen to make the `positions` function separate because
-there aren't really any elegant ways to include the positions
-with the result without interfering with the simplicity of the
-API. Performance wise, it's not much of a drawback at all. If you
-want positions, you're likely displaying a list of something. The
-list should only render the amount of elements that will fit in
-the viewport, which means if you have a list of a million
-elements, you'd only want the additional performance burden to be
-on the elements that are actually in the view.
+Or to wrap each match with a `<span>`:
 
-## Differences From fzy.js
-There are some notable differences from `fzy.js`:
-- `fzi` is much faster because of two optimizations:
-	- `fzy.js` instantiates a new array every time `score` is called, which is quite slow. `fzi` instantiates these arrays once per *import*.
-	- `fzy.js` uses 2D arrays to store the scores, while `fzi` uses 1D arrays which are much faster.
-- `fzi` is more convenient since it comes with a search method which accepts an array and an arbitrary iteratee.
-- `fzi` is written in an awesome language called Imba.
+```
+fzi.replaceMatches(needle, haystack) do "<span>{$1}</span>"
+```
+
+### `fzi.replaceMatchedRanges`
+
+This will pass adjacent matches as one string to the callback
+function, resulting in a cleaner output.
+
+### `fzi.positions`
+
+Returns an array of matching positions.
+Probably not useful.
