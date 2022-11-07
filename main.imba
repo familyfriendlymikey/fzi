@@ -135,7 +135,7 @@ module.exports = new class fzi
 			i--
 
 		if last_match isnt null and j >= 0
-			chars.push replace haystack[last_match]
+			chars.push replace haystack.substring(j + 1, last_match + 1)
 		elif last_match isnt null
 			chars.push replace haystack.substring(0,last_match + 1)
 

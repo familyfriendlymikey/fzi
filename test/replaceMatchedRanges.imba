@@ -43,4 +43,9 @@ export default do |expect, fzi|
 		let b = '<span>he</span>he'
 		expect a, isEqual, b
 
+	test("more") do
+		let a = fzi.replaceMatchedRanges("her", "Style a Hero", replace)
+		let b = 'Style a <span>Her</span>o'
+		expect a, isEqual, b
+
 	test.run!
