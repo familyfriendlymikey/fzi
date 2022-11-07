@@ -48,4 +48,9 @@ export default do |expect, fzi|
 		let b = 'Style a <span>Her</span>o'
 		expect a, isEqual, b
 
+	test("more") do
+		let a = fzi.replaceMatchedRanges("requests-headers", "Requests - Headers", replace)
+		let b = '<span>Requests</span> <span>-</span> <span>Headers</span>'
+		expect a, isEqual, b
+
 	test.run!
