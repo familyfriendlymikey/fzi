@@ -53,7 +53,7 @@ module.exports = new class fzi
 			return this.SCORE_MAX
 		if m > 1024
 			return this.SCORE_MIN
-		compute needle, haystack, lower_needle, lower_haystack
+		this.compute needle, haystack, lower_needle, lower_haystack
 		this.M[(n - 1)*m + (m - 1)]
 
 	def idx rowLength, i, j
@@ -76,7 +76,7 @@ module.exports = new class fzi
 		if m > 1024
 			return positions
 
-		compute needle, haystack
+		this.compute needle, haystack
 
 		let match_required = false
 
@@ -84,8 +84,8 @@ module.exports = new class fzi
 		let j = m - 1
 		while i >= 0
 			while j >= 0
-				let ij = idx m, i, j
-				let pij = idx m, i - 1, j - 1
+				let ij = this.idx m, i, j
+				let pij = this.idx m, i - 1, j - 1
 				if this.D[ij] isnt this.SCORE_MIN and (match_required or this.D[ij] is this.M[ij])
 					match_required = i and j and this.M[ij] is this.D[pij] + this.SCORE_MATCH_CONSECUTIVE
 					positions[i] = j--
@@ -110,7 +110,7 @@ module.exports = new class fzi
 		if m > 1024
 			return haystack
 
-		compute needle, haystack
+		this.compute needle, haystack
 
 		let match_required = false
 
@@ -119,8 +119,8 @@ module.exports = new class fzi
 		let j = m - 1
 		while i >= 0
 			while j >= 0
-				let ij = idx m, i, j
-				let pij = idx m, i - 1, j - 1
+				let ij = this.idx m, i, j
+				let pij = this.idx m, i - 1, j - 1
 				if this.D[ij] isnt this.SCORE_MIN and (match_required or this.D[ij] is this.M[ij])
 					match_required = i and j and this.M[ij] is this.D[pij] + this.SCORE_MATCH_CONSECUTIVE
 					last_match ??= j
@@ -162,7 +162,7 @@ module.exports = new class fzi
 		if m > 1024
 			return haystack
 
-		compute needle, haystack
+		this.compute needle, haystack
 
 		let match_required = false
 
@@ -170,8 +170,8 @@ module.exports = new class fzi
 		let j = m - 1
 		while i >= 0
 			while j >= 0
-				let ij = idx m, i, j
-				let pij = idx m, i - 1, j - 1
+				let ij = this.idx m, i, j
+				let pij = this.idx m, i - 1, j - 1
 				if this.D[ij] isnt this.SCORE_MIN and (match_required or this.D[ij] is this.M[ij])
 					match_required = i and j and this.M[ij] is this.D[pij] + this.SCORE_MATCH_CONSECUTIVE
 					chars[j] = replace haystack[j]
@@ -205,8 +205,8 @@ module.exports = new class fzi
 			let prev_score = this.SCORE_MIN
 			let gap_score = i is n - 1 ? this.SCORE_GAP_TRAILING : this.SCORE_GAP_INNER
 			for j in [0 ... m]
-				let ij = idx m, i, j
-				let pij = idx m, i - 1, j - 1
+				let ij = this.idx m, i, j
+				let pij = this.idx m, i - 1, j - 1
 				if lower_needle[i] is lower_haystack[j]
 					let score = this.SCORE_MIN
 					if i is 0
