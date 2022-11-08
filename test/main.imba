@@ -16,4 +16,5 @@ def main
 	await require('./positions').default(expect, fzi)
 	await require('./replaceMatches').default(expect, fzi)
 	await require('./replaceMatchedRanges').default(expect, fzi)
+	await require('./alias').default(expect, fzi)
 main!

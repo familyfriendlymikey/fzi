@@ -17,19 +17,38 @@ module.exports = new class fzi
 	D = new Array 100_000
 	B = new Array 100_000
 
-	def search needle, haystacks, iteratee
+	def search needle, haystacks, iteratee, alias
 		let lower_needle = needle.toLowerCase!
 		let lower_haystack
 		let haystack
 		return [] unless haystacks.length > 0
 		let scored = []
-		if iteratee
+		if alias
+			for obj in haystacks
+				let haystack = iteratee obj
+				let aliases = alias obj
+				if typeof aliases is 'string'
+					aliases = [aliases]
+				let score = null
+				if typeof haystack is 'string' and has_match lower_needle, lower_haystack=haystack.toLowerCase!
+					score = this.score needle, haystack, lower_needle, lower_haystack
+				if aliases
+					for haystack in aliases
+						continue unless typeof haystack is 'string'
+						lower_haystack = haystack.toLowerCase!
+						continue unless has_match lower_needle, lower_haystack
+						score = Math.max(score, this.score(needle, haystack, lower_needle, lower_haystack))
+						# p haystack, score, this.score(needle, haystack, lower_needle, lower_haystack)
+				if score
+					scored.push { haystack, score, obj }
+			scored.sort(cmp).map do $1.obj
+		elif iteratee
 			for obj in haystacks
 				let haystack = iteratee obj
 				continue unless typeof haystack is 'string'
 				lower_haystack = haystack.toLowerCase!
 				continue unless has_match lower_needle, lower_haystack
-				let score = score needle, haystack, lower_needle, lower_haystack
+				let score = this.score needle, haystack, lower_needle, lower_haystack
 				scored.push { haystack, score, obj }
 			scored.sort(cmp).map do $1.obj
 		else
@@ -37,7 +56,7 @@ module.exports = new class fzi
 				continue unless typeof haystack is 'string'
 				lower_haystack = haystack.toLowerCase!
 				continue unless has_match lower_needle, lower_haystack
-				let score = score needle, haystack, lower_needle, lower_haystack
+				let score = this.score needle, haystack, lower_needle, lower_haystack
 				scored.push { haystack, score }
 			scored.sort(cmp).map do $1.haystack
 

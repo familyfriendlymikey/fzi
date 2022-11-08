@@ -42,3 +42,29 @@ export def replaceMatchesDiff needle, haystack, replaceMatch, replaceDiff
 		j--
 
 	chars.join ''
+
+	def search needle, haystacks, iteratee
+		let lower_needle = needle.toLowerCase!
+		let lower_haystack
+		let haystack
+		return [] unless haystacks.length > 0
+		let scored = []
+		if iteratee
+			for obj in haystacks
+				let haystack = iteratee obj
+				continue unless typeof haystack is 'string'
+				lower_haystack = haystack.toLowerCase!
+				continue unless has_match lower_needle, lower_haystack
+				let score = this.score needle, haystack, lower_needle, lower_haystack
+				scored.push { haystack, score, obj }
+			scored.sort(cmp).map do $1.obj
+		else
+			for haystack in haystacks
+				continue unless typeof haystack is 'string'
+				lower_haystack = haystack.toLowerCase!
+				continue unless has_match lower_needle, lower_haystack
+				let score = this.score needle, haystack, lower_needle, lower_haystack
+				scored.push { haystack, score }
+			scored.sort(cmp).map do $1.haystack
+
+
