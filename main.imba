@@ -114,7 +114,54 @@ module.exports = new class fzi
 
 		positions
 
+	def replaceMatches needle, haystack, replace
+
+		return haystack unless replace
+
+		let n = needle.length
+		let m = haystack.length
+		let chars = new Array m
+
+		if n < 1 or m < 1
+			return haystack
+
+		if n is m
+			for i in [0 ... n]
+				chars[i] = replace haystack[i]
+			return chars.join ''
+
+		if m > 1024
+			return haystack
+
+		this.compute needle, haystack
+
+		let match_required = false
+
+		let i = n - 1
+		let j = m - 1
+		while i >= 0
+			while j >= 0
+				let ij = this.idx m, i, j
+				let pij = this.idx m, i - 1, j - 1
+				if this.D[ij] isnt this.SCORE_MIN and (match_required or this.D[ij] is this.M[ij])
+					match_required = i and j and this.M[ij] is this.D[pij] + this.SCORE_MATCH_CONSECUTIVE
+					chars[j] = replace haystack[j]
+					j--
+					break
+				else
+					chars[j] = haystack[j]
+				j--
+			i--
+
+		while j >= 0
+			chars[j] = haystack[j]
+			j--
+
+		chars.join ''
+
 	def replaceMatchedRanges needle, haystack, replace
+
+		return haystack unless replace
 
 		let n = needle.length
 		let m = haystack.length
@@ -163,49 +210,6 @@ module.exports = new class fzi
 			j--
 
 		chars.reverse!.join ''
-
-	def replaceMatches needle, haystack, replace
-
-		let n = needle.length
-		let m = haystack.length
-		let chars = new Array m
-
-		if n < 1 or m < 1
-			return haystack
-
-		if n is m
-			for i in [0 ... n]
-				chars[i] = replace haystack[i]
-			return chars.join ''
-
-		if m > 1024
-			return haystack
-
-		this.compute needle, haystack
-
-		let match_required = false
-
-		let i = n - 1
-		let j = m - 1
-		while i >= 0
-			while j >= 0
-				let ij = this.idx m, i, j
-				let pij = this.idx m, i - 1, j - 1
-				if this.D[ij] isnt this.SCORE_MIN and (match_required or this.D[ij] is this.M[ij])
-					match_required = i and j and this.M[ij] is this.D[pij] + this.SCORE_MATCH_CONSECUTIVE
-					chars[j] = replace haystack[j]
-					j--
-					break
-				else
-					chars[j] = haystack[j]
-				j--
-			i--
-
-		while j >= 0
-			chars[j] = haystack[j]
-			j--
-
-		chars.join ''
 
 	def has_match needle, haystack
 		let i = 0
