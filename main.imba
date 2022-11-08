@@ -18,6 +18,7 @@ module.exports = new class fzi
 	B = new Array 100_000
 
 	def search needle, haystacks, iteratee, alias
+		return haystacks unless needle
 		let lower_needle = needle.toLowerCase!
 		let lower_haystack
 		let haystack
